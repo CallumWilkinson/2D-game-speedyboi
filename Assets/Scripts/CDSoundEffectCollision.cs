@@ -4,10 +4,10 @@ using System.Net.Security;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class SoundEffectCollisionCoolDown : MonoBehaviour
+public class CDSoundEffectCollision : MonoBehaviour
 {
     private AudioSource audioSource;
-    public float cooldownTime = 30f;
+    public float cooldownTime = 0.5f;
     private bool onCooldown = false;
 
 
