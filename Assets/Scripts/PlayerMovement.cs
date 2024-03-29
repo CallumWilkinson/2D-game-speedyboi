@@ -49,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
         //creates the circle at players feet to detect collision with ground
         isGrounded = Physics2D.OverlapCircle(feetPosition.position, groundCheckCircle, groundLayer);
 
+
         //if player is grounded and presses jump button they will jump once
         //uses jump counter so you cant float in the air indefinately
         if (isGrounded == true && (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)))
@@ -73,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //on ground
-        if (isGrounded == true) 
+        if (isGrounded == true && Mathf.Abs(playerRB.velocity.y) < 0.001f) 
         {
             animator.SetBool("isJumping", false);
         }
