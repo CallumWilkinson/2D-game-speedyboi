@@ -23,12 +23,17 @@ public class PlayerMovement : MonoBehaviour
     public AudioClip JumpSoundEffect;
     private AudioSource audioSource;
 
+    public Animator animator;
+
 
     // Update is called once per frame
     void Update()
     {
         //assign the audiosource variable to allow all sound effects
         audioSource = GetComponent<AudioSource>();
+
+        //set speed in animator to control animations
+        animator.SetFloat("Speed", Mathf.Abs(input));
 
         //flip character
         input = Input.GetAxisRaw("Horizontal");
