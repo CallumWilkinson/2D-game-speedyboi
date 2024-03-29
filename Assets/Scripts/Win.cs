@@ -21,4 +21,12 @@ public class Win : MonoBehaviour
             animator.SetBool("hasWon", true);
         }
     }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            animator.SetBool("hasWon", false);
+        }
+    }
 }

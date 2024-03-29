@@ -7,8 +7,9 @@ using UnityEngine;
 public class CDSoundEffectCollision : MonoBehaviour
 {
     private AudioSource audioSource;
-    public float cooldownTime = 0.5f;
+    public int cooldownTime = 500;
     private bool onCooldown = false;
+    private Task _timer = Task.CompletedTask;
 
 
     private void Start()
@@ -20,12 +21,14 @@ public class CDSoundEffectCollision : MonoBehaviour
     async void OnCollisionEnter2D(Collision2D collision)
     {
         //check if player collides and play sound
-        if (!onCooldown && collision.gameObject.CompareTag("Player"))
+        if (_timer.IsCompleted && collision.gameObject.CompareTag("Player"))
         {
             audioSource.Play();
             onCooldown = true;
-            await Task.Delay((int)(cooldownTime *1000));
-            onCooldown = false;
+            _timer = Task.Delay(cooldownTime);
+            _timer.Start();
+            //await Task.Delay((int)(cooldownTime *1000));
+            //onCooldown = false;
         }
         
 
