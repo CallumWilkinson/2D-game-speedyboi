@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4225018286344573185}
   - component: {fileID: 4490383984780127944}
   - component: {fileID: 517454268035801991}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PF Village Props - Hay Bale
   m_TagString: Untagged
   m_Icon: {fileID: 0}
