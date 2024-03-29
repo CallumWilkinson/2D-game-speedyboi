@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
 
         //if player is grounded and presses jump button they will jump once
         //uses jump counter so you cant float in the air indefinately
-        if (isGrounded == true && Input.GetButtonDown("Jump"))
+        if (isGrounded == true && (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)))
         {
             isJumping = true;
             jumpTimeCounter = jumpTime;
@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
             canDoubleJump = true;
             audioSource.PlayOneShot(JumpSoundEffect);
         }
-        else if (canDoubleJump == true && Input.GetButtonDown("Jump"))
+        else if (canDoubleJump == true && (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)))
         {
             playerRB.velocity= Vector2.up * jumpForce;
             canDoubleJump = false;
@@ -65,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
 
 
         //stops jumping when spacebar is released
-        if (Input.GetButtonUp("Jump"))
+        if (Input.GetButtonUp("Jump") || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             isJumping = false;
         }
