@@ -5,7 +5,12 @@ using UnityEngine;
 
 public class Win : MonoBehaviour
 {
-    private Animator animator = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
+    private Animator animator;
+
+    private void Start()
+    {
+        animator = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
+    }
 
 
     void OnCollisionEnter2D(Collision2D collision)
