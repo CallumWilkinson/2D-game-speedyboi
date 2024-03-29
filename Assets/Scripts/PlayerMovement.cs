@@ -53,24 +53,34 @@ public class PlayerMovement : MonoBehaviour
         //uses jump counter so you cant float in the air indefinately
         if (isGrounded == true && (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)))
         {
+            
             isJumping = true;
             jumpTimeCounter = jumpTime;
             playerRB.velocity = Vector2.up * jumpForce;
             canDoubleJump = true;
             audioSource.PlayOneShot(JumpSoundEffect);
+            animator.SetBool("isJumping", true);
         }
         else if (canDoubleJump == true && (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)))
         {
+            
             playerRB.velocity= Vector2.up * jumpForce;
             canDoubleJump = false;
             audioSource.PlayOneShot(JumpSoundEffect);
+            animator.SetBool("isJumping", true);
 
 
+        }
+
+        //on ground
+        if (isGrounded == true) 
+        {
+            animator.SetBool("isJumping", false);
         }
 
 
         //stops jumping when spacebar is released
-        if (Input.GetButtonUp("Jump") || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetButtonUp("Jump") || Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow))
         {
             isJumping = false;
         }
