@@ -186,7 +186,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 023ea3ddeaa8dd146b7633a0800e5a0e, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.235
   m_Pitch: 1
@@ -284,4 +284,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd731be4f3fdcb94eb8ad8741e01031c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownTime: 0.5
+  cooldownTime: 500

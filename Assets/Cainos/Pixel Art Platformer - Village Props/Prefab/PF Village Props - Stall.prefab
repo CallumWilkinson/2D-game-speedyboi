@@ -1340,7 +1340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd731be4f3fdcb94eb8ad8741e01031c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownTime: 0.5
+  cooldownTime: 500
 --- !u!4 &8880890978935763845 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3520361919269119968, guid: 83d9652edf8102948abc7e6551b4db36, type: 3}
