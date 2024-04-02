@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class Win : MonoBehaviour
@@ -19,7 +20,10 @@ public class Win : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             animator.SetBool("hasWon", true);
+            StartCoroutine(RestartGame());
         }
+
+        
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -28,5 +32,11 @@ public class Win : MonoBehaviour
         {
             animator.SetBool("hasWon", false);
         }
+    }
+
+    private IEnumerator RestartGame()
+    {
+        yield return new WaitForSeconds(5f);
+        SceneManager.LoadScene("L1");
     }
 }

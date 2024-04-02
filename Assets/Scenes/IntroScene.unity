@@ -438,7 +438,7 @@ PrefabInstance:
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_text
       value: '"Beyond the comfort of hearth and home, the mountains whisper tales
-        of old. Here, our journey begins, with the weight of destiny upon our shoulders."'
+        of old. Here, our journey begins"'
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_fontSize
