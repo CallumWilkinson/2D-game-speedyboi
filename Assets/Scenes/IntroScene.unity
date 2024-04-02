@@ -314,18 +314,18 @@ PrefabInstance:
     - target: {fileID: 2354139954425742977, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: slideshowTexts.Array.data[0]
       value: '"Beyond the comfort of hearth and home, the mountains whisper tales
-        of old. Here, our journey begins, with the weight of destiny upon our shoulders"'
+        of old. Here, our journey begins"'
       objectReference: {fileID: 0}
     - target: {fileID: 2354139954425742977, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: slideshowTexts.Array.data[1]
-      value: '"As the path climbs, so too does our resolve. Each step takes us closer
-        to our goal, through the beauty and the peril of these ancient lands"'
+      value: '"As the path climbs, so too does our resolve. Each step taking us closer
+        to our goal"'
       objectReference: {fileID: 0}
     - target: {fileID: 2354139954425742977, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: slideshowTexts.Array.data[2]
       value: '"In the heart of the mountains, a fire burns bright, a beacon in the
         night. Here, we may rest, gather our strength, and prepare for what lies
-        ahead...'
+        ahead..."'
       objectReference: {fileID: 0}
     - target: {fileID: 2615112560721938626, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_SizeDelta.x
@@ -344,12 +344,16 @@ PrefabInstance:
       value: 53.0413
       objectReference: {fileID: 0}
     - target: {fileID: 3266216807892991991, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 45.3135
+      objectReference: {fileID: 0}
+    - target: {fileID: 3266216807892991991, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3266216807892991991, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -280
+      value: -299
       objectReference: {fileID: 0}
     - target: {fileID: 5423580290804286584, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_Sprite
@@ -442,11 +446,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_fontSize
-      value: 31.1
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_margin.w
-      value: -42.182938
+      value: -7.0346375
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_margin.x
@@ -478,7 +482,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_fontSizeBase
-      value: 25
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_sharedMaterial
@@ -486,7 +490,7 @@ PrefabInstance:
       objectReference: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_enableAutoSizing
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_fontColor32.rgba
