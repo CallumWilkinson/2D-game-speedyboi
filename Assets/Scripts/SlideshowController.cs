@@ -13,7 +13,6 @@ public class SlideshowController : MonoBehaviour
     public TextMeshProUGUI displayText;
     public float slideDuration = 5f;
     private int currentIndex = 0;
-    //public string nextSceneName = "MainScene";
 
 
     // Start is called before the first frame update
@@ -49,8 +48,8 @@ public class SlideshowController : MonoBehaviour
         }
 
 
-        //load next scene which is start of game
-        SceneManager.LoadScene("SampleScene");
+        //load next scene which is level 1
+        SceneManager.LoadScene("L1");
     }
 
 
