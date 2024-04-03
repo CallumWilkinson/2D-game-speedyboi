@@ -8,9 +8,17 @@ public class LevelTracker : MonoBehaviour
     public static TextMeshProUGUI levelText;
     public static int currentLevel = 1;
 
-    void Start()
+    void Awake()
     {
-        levelText = GameObject.FindGameObjectWithTag("LevelText").GetComponent<TextMeshProUGUI>();   
+        DontDestroyOnLoad(levelText);
+
+        if (levelText == null)
+        {
+            levelText = GameObject.FindGameObjectWithTag("LevelText").GetComponent<TextMeshProUGUI>();
+            
+            
+        }
+       
     }
 
 }

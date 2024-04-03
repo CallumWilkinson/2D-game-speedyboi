@@ -42,12 +42,8 @@ public class Win : MonoBehaviour
     {
 
         yield return new WaitForSeconds(3f);
-        
         LevelTracker.currentLevel++;
         LevelTracker.levelText.text = $"Level {LevelTracker.currentLevel}";
-        DontDestroyOnLoad(GameObject.FindGameObjectWithTag("LevelText"));
-
-
         SceneManager.LoadScene("L1");
         
 
