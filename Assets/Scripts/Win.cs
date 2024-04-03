@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.UIElements;
+using TMPro;
 
 public class Win : MonoBehaviour
 {
     private Animator animator;
+   
+    
 
     private void Start()
     {
@@ -36,7 +40,18 @@ public class Win : MonoBehaviour
 
     private IEnumerator RestartGame()
     {
-        yield return new WaitForSeconds(5f);
+
+        yield return new WaitForSeconds(3f);
+        
+        LevelTracker.currentLevel++;
+        LevelTracker.levelText.text = $"Level {LevelTracker.currentLevel}";
+        DontDestroyOnLoad(GameObject.FindGameObjectWithTag("LevelText"));
+
+
         SceneManager.LoadScene("L1");
+        
+
+
+
     }
 }
