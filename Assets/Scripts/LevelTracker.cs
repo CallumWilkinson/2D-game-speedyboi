@@ -10,15 +10,11 @@ public class LevelTracker : MonoBehaviour
 
     void Awake()
     {
-        DontDestroyOnLoad(levelText);
-
         if (levelText == null)
         {
             levelText = GameObject.FindGameObjectWithTag("LevelText").GetComponent<TextMeshProUGUI>();
-            
-            
         }
-       
+
     }
 
 }

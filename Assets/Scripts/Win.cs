@@ -18,7 +18,7 @@ public class Win : MonoBehaviour
     }
 
 
-    void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         
         if (collision.gameObject.CompareTag("Player"))
@@ -44,8 +44,9 @@ public class Win : MonoBehaviour
         yield return new WaitForSeconds(3f);
         LevelTracker.currentLevel++;
         LevelTracker.levelText.text = $"Level {LevelTracker.currentLevel}";
+        //DontDestroyOnLoad(LevelTracker.levelText);
         SceneManager.LoadScene("L1");
-        
+
 
 
 
