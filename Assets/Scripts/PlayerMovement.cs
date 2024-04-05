@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -86,7 +87,16 @@ public class PlayerMovement : MonoBehaviour
             isJumping = false;
         }
 
-        
+        //when level increases, inc speed by 10
+        if (LevelTracker.currentLevel>LevelTracker.previousLevel)
+        {
+            increaseSpeedBy10();
+        }
+
+
+
+
+
 
     }
 
@@ -95,4 +105,10 @@ public class PlayerMovement : MonoBehaviour
         //moves left to right
         playerRB.velocity = new Vector2 (input * speed, playerRB.velocity.y);
     }
+
+
+    private void increaseSpeedBy10()
+    {
+        speed += 10;
+    }    
 }
