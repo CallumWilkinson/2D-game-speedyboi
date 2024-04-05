@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody2D playerRB;
-    public float speed;
+    public static float speed = 10;
     public float input;
     public SpriteRenderer spriteRenderer;
     public float jumpForce;
@@ -87,16 +87,6 @@ public class PlayerMovement : MonoBehaviour
             isJumping = false;
         }
 
-        //when level increases, inc speed by 10
-        if (LevelTracker.currentLevel>LevelTracker.previousLevel)
-        {
-            increaseSpeedBy10();
-        }
-
-
-
-
-
 
     }
 
@@ -107,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    private void increaseSpeedBy10()
+    public static void IncreaseSpeedBy10()
     {
         speed += 10;
     }    
