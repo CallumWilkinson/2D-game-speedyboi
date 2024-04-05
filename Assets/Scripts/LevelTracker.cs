@@ -5,15 +5,20 @@ using TMPro;
 
 public class LevelTracker : MonoBehaviour
 {
-    public static TextMeshProUGUI levelText;
+    public static TextMeshProUGUI TMPComponent;
     public static int currentLevel = 1;
 
     void Awake()
     {
-        if (levelText == null)
+        if (TMPComponent == null)
         {
-            levelText = GameObject.FindGameObjectWithTag("LevelText").GetComponent<TextMeshProUGUI>();
+            TMPComponent = GameObject.FindGameObjectWithTag("LevelText").GetComponent<TextMeshProUGUI>();
         }
+      
+        if (TMPComponent.text == "")
+        {
+            TMPComponent.text = "Level 1";
+        }    
 
     }
 
