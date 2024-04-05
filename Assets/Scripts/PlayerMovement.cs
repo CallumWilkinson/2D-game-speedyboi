@@ -99,6 +99,7 @@ public class PlayerMovement : MonoBehaviour
 
     public static void IncreaseSpeedBy10()
     {
-        speed += 10;
+        speed += 5;
+        Debug.Log(speed);
     }    
 }
