@@ -17,9 +17,10 @@ public class LevelTracker : MonoBehaviour
         } 
         set
         {
+            //when _currentLevel changes, increase players speed
             if (value > 0)
             {
-                PlayerMovement.IncreaseSpeedBy10();
+                PlayerMovement.IncreasePlayerSpeed();
             }
             _currentLevel = value;
         }

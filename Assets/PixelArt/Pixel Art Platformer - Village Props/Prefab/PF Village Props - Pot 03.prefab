@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7921076258788708255}
   - component: {fileID: 7692776535954926194}
   - component: {fileID: 4598526903791427440}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PF Village Props - Pot 03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
