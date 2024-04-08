@@ -5,16 +5,19 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UIElements;
 using TMPro;
+using System.Runtime.CompilerServices;
 
 public class Win : MonoBehaviour
 {
     private Animator animator;
+    private PlayerMovement playerMovementScript;
    
     
 
     private void Start()
     {
         animator = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
+        playerMovementScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
     }
 
 
@@ -41,7 +44,15 @@ public class Win : MonoBehaviour
     private IEnumerator RestartGame()
     {
 
-        yield return new WaitForSeconds(2f);
+
+
+        playerMovementScript.enabled = false;
+        yield return new WaitForSeconds(3f);
+        playerMovementScript.enabled = true;
+        
+        
+
+
         LevelTracker.CurrentLevel++;
         DontDestroyOnLoad(GameObject.FindGameObjectWithTag("Canvas"));
         LevelTracker.TMPComponent.text = $"Level {LevelTracker.CurrentLevel}";
