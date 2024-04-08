@@ -6,7 +6,6 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody2D playerRB;
-    //static speed so it keeps increasing each level
     public static float speed = 10;
     public float input;
     public SpriteRenderer spriteRenderer;
@@ -98,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    public static void IncreasePlayerSpeed()
+    public static void IncreaseSpeedBy10()
     {
         speed += 5;
         Debug.Log(speed);

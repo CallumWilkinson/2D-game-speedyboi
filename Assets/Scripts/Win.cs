@@ -41,9 +41,10 @@ public class Win : MonoBehaviour
     private IEnumerator RestartGame()
     {
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
         LevelTracker.CurrentLevel++;
         DontDestroyOnLoad(GameObject.FindGameObjectWithTag("Canvas"));
+        //DontDestroyOnLoad(GameObject.FindGameObjectWithTag("Player"));
         LevelTracker.TMPComponent.text = $"Level {LevelTracker.CurrentLevel}";
         SceneManager.LoadScene("L1");
 
