@@ -4401,7 +4401,7 @@ GameObject:
   - component: {fileID: 757035692}
   - component: {fileID: 757035694}
   - component: {fileID: 757035693}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: PausePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4598,7 +4598,7 @@ GameObject:
   - component: {fileID: 793257137}
   - component: {fileID: 793257139}
   - component: {fileID: 793257140}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CenterLevelTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6076,7 +6076,7 @@ GameObject:
   - component: {fileID: 993757300}
   - component: {fileID: 993757299}
   - component: {fileID: 993757301}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: LevelText - Left Corner
   m_TagString: LevelText
   m_Icon: {fileID: 0}
@@ -6229,7 +6229,7 @@ GameObject:
   - component: {fileID: 1031981141}
   - component: {fileID: 1031981140}
   - component: {fileID: 1031981144}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Canvas
   m_TagString: Canvas
   m_Icon: {fileID: 0}
@@ -6270,7 +6270,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -10498,11 +10498,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6309599118117444222, guid: e8bae36b607017047ace9061609051d9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -25.89
+      value: 24.537
       objectReference: {fileID: 0}
     - target: {fileID: 6309599118117444222, guid: e8bae36b607017047ace9061609051d9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.7
+      value: 46.56
       objectReference: {fileID: 0}
     - target: {fileID: 6309599118117444222, guid: e8bae36b607017047ace9061609051d9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -11001,7 +11001,7 @@ GameObject:
   - component: {fileID: 2070973852}
   - component: {fileID: 2070973854}
   - component: {fileID: 2070973853}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: PauseTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
