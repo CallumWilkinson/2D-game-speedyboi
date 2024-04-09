@@ -55,7 +55,7 @@ public class Win : MonoBehaviour
 
         LevelTracker.CurrentLevel++;
         DontDestroyOnLoad(GameObject.FindGameObjectWithTag("Canvas"));
-        LevelTracker.TMPComponent.text = $"Level {LevelTracker.CurrentLevel}";
+        LevelTracker.TMPComponentBottomLevelText.text = $"Level {LevelTracker.CurrentLevel}";
         SceneManager.LoadScene("L1");
 
 

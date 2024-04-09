@@ -7,7 +7,7 @@ using UnityEditor;
 
 public class LevelTracker : MonoBehaviour
 {
-    public static TextMeshProUGUI TMPComponent;
+    public static TextMeshProUGUI TMPComponentBottomLevelText;
     public static int _currentLevel = 1;
     public static int CurrentLevel
     {
@@ -29,14 +29,14 @@ public class LevelTracker : MonoBehaviour
 
     void Awake()
     {
-        if (TMPComponent == null)
+        if (TMPComponentBottomLevelText == null)
         {
-            TMPComponent = GameObject.FindGameObjectWithTag("LevelText").GetComponent<TextMeshProUGUI>();
+            TMPComponentBottomLevelText = GameObject.FindGameObjectWithTag("LevelText").GetComponent<TextMeshProUGUI>();
         }
       
-        if (TMPComponent.text == "")
+        if (TMPComponentBottomLevelText.text == "")
         {
-            TMPComponent.text = "Level 1";
+            TMPComponentBottomLevelText.text = "Level 1";
         }    
 
     }

@@ -8,6 +8,7 @@ TagManager:
   - LevelText
   - Campfire
   - Canvas
+  - CenterLevelText
   layers:
   - Default
   - TransparentFX
