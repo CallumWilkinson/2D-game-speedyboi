@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 808580158}
   - component: {fileID: 808580160}
   - component: {fileID: 808580159}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -307,6 +307,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: IntroUI
       objectReference: {fileID: 0}
+    - target: {fileID: 504093268922619082, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2354139954425742977, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: slideDuration
       value: 10
@@ -328,20 +332,28 @@ PrefabInstance:
         ahead..."'
       objectReference: {fileID: 0}
     - target: {fileID: 2615112560721938626, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2615112560721938626, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2615112560721938626, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 636.1525
+      value: 603.2264
       objectReference: {fileID: 0}
     - target: {fileID: 2615112560721938626, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 599.5037
+      value: 572
       objectReference: {fileID: 0}
     - target: {fileID: 2615112560721938626, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -16.9703
+      value: -8.9862
       objectReference: {fileID: 0}
     - target: {fileID: 2615112560721938626, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 53.0413
+      value: 40.5
       objectReference: {fileID: 0}
     - target: {fileID: 3266216807892991991, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_SizeDelta.y
@@ -349,11 +361,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3266216807892991991, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1.7
+      value: -117
       objectReference: {fileID: 0}
     - target: {fileID: 3266216807892991991, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -277.5
+      value: -273
+      objectReference: {fileID: 0}
+    - target: {fileID: 4985073429575365620, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5170314308524156119, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5423580290804286584, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_Sprite
@@ -446,7 +466,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_fontSize
-      value: 28
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_margin.w
@@ -454,11 +474,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_margin.x
-      value: -509.43982
+      value: -378.62097
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_margin.z
-      value: -537.56165
+      value: -705.9304
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_fontAsset
@@ -482,7 +502,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_fontSizeBase
-      value: 28
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_sharedMaterial
