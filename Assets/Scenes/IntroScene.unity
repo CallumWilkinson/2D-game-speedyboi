@@ -328,8 +328,7 @@ PrefabInstance:
     - target: {fileID: 2354139954425742977, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: slideshowTexts.Array.data[2]
       value: '"In the heart of the mountains, a fire burns bright, a beacon in the
-        night. Here, we may rest, gather our strength, and prepare for what lies
-        ahead..."'
+        night. Here, we may rest and gather our strength"'
       objectReference: {fileID: 0}
     - target: {fileID: 2615112560721938626, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_AnchorMax.y
@@ -341,19 +340,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2615112560721938626, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 603.2264
+      value: 585.5923
       objectReference: {fileID: 0}
     - target: {fileID: 2615112560721938626, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 572
+      value: 523.8003
       objectReference: {fileID: 0}
     - target: {fileID: 2615112560721938626, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -8.9862
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 2615112560721938626, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 40.5
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 3266216807892991991, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_SizeDelta.y
@@ -474,7 +473,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_margin.x
-      value: -378.62097
+      value: -474.56696
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_margin.z
