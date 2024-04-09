@@ -1,6 +1,6 @@
 # 2D-game - Speedyboi
 
-Download speediboi.zip and run exe to play.
+Download speedyboi.zip and run exe to play.
  
 The player's goal is to jump on the platforms to get to the campfire. When the player makes contact with the campfire, they progress to the next level where their physics become more and more difficult to handle.
 
