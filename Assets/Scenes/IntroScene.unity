@@ -327,8 +327,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2354139954425742977, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: slideshowTexts.Array.data[2]
-      value: '"In the heart of the mountains, a fire burns bright, a beacon in the
-        night. Here, we may rest and gather our strength"'
+      value: '"In the heart of the mountains, a fire burns bright. Here, we may rest
+        and gather our strength"'
       objectReference: {fileID: 0}
     - target: {fileID: 2615112560721938626, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_AnchorMax.y
@@ -465,19 +465,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_fontSize
-      value: 26
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_margin.w
-      value: -7.0346375
+      value: -4.162508
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_margin.x
-      value: -474.56696
+      value: -92.80113
+      objectReference: {fileID: 0}
+    - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
+      propertyPath: m_margin.y
+      value: -7.8983803
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_margin.z
-      value: -705.9304
+      value: -295.33893
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_fontAsset
@@ -501,7 +505,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_fontSizeBase
-      value: 26
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_sharedMaterial
