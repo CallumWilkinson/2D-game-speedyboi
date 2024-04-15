@@ -599,7 +599,7 @@ GameObject:
   - component: {fileID: 8880890979157700243}
   m_Layer: 6
   m_Name: PF Village Props - Stall
-  m_TagString: Untagged
+  m_TagString: BasePlatform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
