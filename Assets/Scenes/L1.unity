@@ -2668,7 +2668,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 4.8664026
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3932,8 +3932,8 @@ Transform:
   m_GameObject: {fileID: 713151706}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -14.7064, y: -3.9102, z: -1.8315859}
-  m_LocalScale: {x: 0.85952514, y: 1.5049081, z: 1}
+  m_LocalPosition: {x: -14.7064, y: -4.1587, z: -1.8315859}
+  m_LocalScale: {x: 0.85952514, y: 1.5918919, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2079778069}
@@ -4621,8 +4621,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 39}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 61.71924, y: 38.522827}
+  m_SizeDelta: {x: 323.4386, y: 50.9544}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &793257137
 MonoBehaviour:
@@ -4671,8 +4671,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 200
-  m_fontSizeBase: 200
+  m_fontSize: 250
+  m_fontSizeBase: 250
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -6149,8 +6149,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 52
-  m_fontSizeBase: 52
+  m_fontSize: 62
+  m_fontSizeBase: 62
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -7140,8 +7140,8 @@ Transform:
   m_GameObject: {fileID: 1231351159}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.0016, y: -3.8678, z: -1.8315859}
-  m_LocalScale: {x: 0.72108334, y: 1.5044122, z: 1}
+  m_LocalPosition: {x: -0.9498, y: -4.1474, z: -1.8315859}
+  m_LocalScale: {x: 0.7270683, y: 1.6023493, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2079778069}
@@ -10498,11 +10498,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6309599118117444222, guid: e8bae36b607017047ace9061609051d9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 24.537
+      value: 24.61
       objectReference: {fileID: 0}
     - target: {fileID: 6309599118117444222, guid: e8bae36b607017047ace9061609051d9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 46.56
+      value: 46.554
       objectReference: {fileID: 0}
     - target: {fileID: 6309599118117444222, guid: e8bae36b607017047ace9061609051d9, type: 3}
       propertyPath: m_LocalPosition.z

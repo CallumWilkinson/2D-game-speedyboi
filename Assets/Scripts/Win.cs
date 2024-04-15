@@ -27,6 +27,8 @@ public class Win : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             animator.SetBool("hasWon", true);
+            //pause all animations
+            animator.speed = 0;
             StartCoroutine(RestartGame());
         }
 
@@ -38,20 +40,16 @@ public class Win : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             animator.SetBool("hasWon", false);
+            
         }
     }
 
     private IEnumerator RestartGame()
     {
-
-
-
+        
         playerMovementScript.enabled = false;
         yield return new WaitForSeconds(3f);
         playerMovementScript.enabled = true;
-        
-        
-
 
         LevelTracker.CurrentLevel++;
         DontDestroyOnLoad(GameObject.FindGameObjectWithTag("Canvas"));
