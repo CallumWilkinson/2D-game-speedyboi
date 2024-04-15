@@ -4,11 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Runtime.CompilerServices;
 
 public class SlideshowController : MonoBehaviour
 {
     public Sprite[] slideshowImages;
-    public string[] slideshowTexts;
+    private string[] slideshowTexts = 
+        { "\"Beyond the comfort of hearth and home, the mountains whisper tales of old.\nHere, our journey begins\"",
+        "\"As the path climbs, so too does our resolve.\nEach step taking us closer to our goal\"",
+        "\"In the heart of the mountains, a fire burns bright.\nHere, we may rest and gather our strength...\"",
+        };
     public Image displayImage;
     public TextMeshProUGUI displayText;
     public float slideDuration = 5f;

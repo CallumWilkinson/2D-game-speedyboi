@@ -317,18 +317,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2354139954425742977, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: slideshowTexts.Array.data[0]
-      value: '"Beyond the comfort of hearth and home, the mountains whisper tales
-        of old. Here, our journey begins"'
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2354139954425742977, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: slideshowTexts.Array.data[1]
-      value: '"As the path climbs, so too does our resolve. Each step taking us closer
-        to our goal"'
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2354139954425742977, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: slideshowTexts.Array.data[2]
-      value: '"In the heart of the mountains, a fire burns bright. Here, we may rest
-        and gather our strength"'
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2615112560721938626, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_AnchorMax.y
@@ -340,31 +337,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2615112560721938626, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 585.5923
+      value: 1239.0979
       objectReference: {fileID: 0}
     - target: {fileID: 2615112560721938626, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 523.8003
+      value: 1180.6726
       objectReference: {fileID: 0}
     - target: {fileID: 2615112560721938626, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -15
+      value: 39.21936
       objectReference: {fileID: 0}
     - target: {fileID: 2615112560721938626, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 23
+      value: 58.611572
+      objectReference: {fileID: 0}
+    - target: {fileID: 3266216807892991991, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3266216807892991991, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3266216807892991991, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1215.606
       objectReference: {fileID: 0}
     - target: {fileID: 3266216807892991991, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 45.3135
+      value: 137.0904
       objectReference: {fileID: 0}
     - target: {fileID: 3266216807892991991, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -117
+      value: 34.584106
       objectReference: {fileID: 0}
     - target: {fileID: 3266216807892991991, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -273
+      value: 85.6582
       objectReference: {fileID: 0}
     - target: {fileID: 4985073429575365620, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_Layer
@@ -460,12 +469,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_text
-      value: '"Beyond the comfort of hearth and home, the mountains whisper tales
-        of old. Here, our journey begins"'
+      value: Sample text
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_fontSize
-      value: 16
+      value: 38
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_margin.w
@@ -473,7 +481,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_margin.x
-      value: -92.80113
+      value: -2.7559662
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_margin.y
@@ -481,7 +489,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_margin.z
-      value: -295.33893
+      value: -6.1553345
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_fontAsset
@@ -505,7 +513,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_fontSizeBase
-      value: 16
+      value: 38
       objectReference: {fileID: 0}
     - target: {fileID: 7552042379531162849, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_sharedMaterial
@@ -545,15 +553,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8437678975950762694, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_MatchWidthOrHeight
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8437678975950762694, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_ReferenceResolution.x
-      value: 800
+      value: 2560
       objectReference: {fileID: 0}
     - target: {fileID: 8437678975950762694, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_ReferenceResolution.y
-      value: 600
+      value: 1440
       objectReference: {fileID: 0}
     - target: {fileID: 8437678975950762694, guid: 92661c71b4e7a724588af201bdbc1bb5, type: 3}
       propertyPath: m_ReferencePixelsPerUnit
