@@ -16,14 +16,17 @@ public class SlideshowController : MonoBehaviour
         };
     public Image displayImage;
     public TextMeshProUGUI displayText;
+    public Button skipButton;
     public float slideDuration = 5f;
     private int currentIndex = 0;
+    private Coroutine slideshowCoroutine;
 
 
     // Start is called before the first frame update
     private void Start()
     {
-        StartCoroutine(ShowSlideshow());
+        skipButton.onClick.AddListener(SkipIntro);
+        slideshowCoroutine = StartCoroutine(ShowSlideshow());
     }
 
     private IEnumerator ShowSlideshow()
@@ -57,6 +60,12 @@ public class SlideshowController : MonoBehaviour
         SceneManager.LoadScene("L1");
     }
 
-
- 
+    public void SkipIntro()
+    {
+        if (slideshowCoroutine != null)
+        {
+            StopCoroutine(slideshowCoroutine);
+        }
+        SceneManager.LoadScene("L1");
+    }
 }
