@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 using TMPro;
 using System.Runtime.CompilerServices;
 
@@ -21,10 +22,29 @@ public class SlideshowController : MonoBehaviour
     private int currentIndex = 0;
     private Coroutine slideshowCoroutine;
 
+    private void Awake()
+    {
+        EnsureEventSystemExists();
+    }
 
-    // Start is called before the first frame update
+    private void EnsureEventSystemExists()
+    {
+        if (FindObjectOfType<EventSystem>() == null)
+        {
+            GameObject eventSystemGO = new GameObject("EventSystem");
+            eventSystemGO.AddComponent<EventSystem>();
+            eventSystemGO.AddComponent<StandaloneInputModule>();
+        }
+    }
+
     private void Start()
     {
+        if (skipButton == null)
+        {
+            Debug.LogError("Skip button is not assigned in SlideshowController!");
+            return;
+        }
+        
         skipButton.onClick.AddListener(SkipIntro);
         slideshowCoroutine = StartCoroutine(ShowSlideshow());
     }
