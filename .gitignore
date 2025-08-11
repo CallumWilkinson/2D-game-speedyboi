@@ -80,3 +80,44 @@ Assets/TextMesh Pro/Resources/Fonts & Materials/*.asset
 Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Bangers SDF.asset
 Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Oswald Bold SDF.asset
 Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset
+
+# --- Extra IDE folders
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# --- Unity Test Runner artifacts and logs
+*.log
+TestResults.xml
+TestResult.xml
+TestRun*.xml
+EditModeTestRun.log
+PlayModeTestRun.log
+FinalEditModeTest.log
+DetailedTestRun.log
+TestExecution.log
+TestRun.log
+
+# --- Addressables build cache (you already ignore packed bins)
+[Aa]ssets/[Aa]ddressableAssetsData/*/obj*/
+
+# --- Generated StreamingAssets build artifacts
+[Aa]ssets/[Ss]treamingAssets/**/[Bb]uild*/
+
+# --- Misc build and crash dumps
+*.dmp
+*.stackdump
+
+# --- Optional extras for cleaner repos
+.nuget/
+*.ncrunch*
+*.snk
+AssetStoreTools*/
+
+
+# Prevent accidental reserved-name files on Windows
+NUL
+
