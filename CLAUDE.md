@@ -131,6 +131,15 @@ for (int i = 1; i < legalMoves.Count; i++) { ... }
 
 - YOU MUST FOLLOW THE CONVENTIONAL COMMIT FORMAT AND ONLY EVER REPLY WITH THE COMMIT MESSAGE AND A SMALL EXPLAINATION OF YOUR CHANGES FOR MY UNDERSTANDING
   https://www.conventionalcommits.org/en/v1.0.0/
+- **MANDATORY COMMIT MESSAGE RESPONSES:** ALWAYS automatically end every response with a clean conventional commit message when you make any code changes, create files, or modify the codebase. Use this format:
+  ```
+  <type>: <short summary>
+  
+  - <bullet point describing change>
+  - <bullet point describing change>
+  - <bullet point describing change>
+  ```
+  Then add a brief explanatory sentence about what was accomplished.
 - One logical change per commit
 - Bundle logic and tests when appropriate
 - Each commit must compile and pass local tests
