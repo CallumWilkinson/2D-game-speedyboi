@@ -80,8 +80,8 @@
 **Folder Layout Example:**
 
 ```
-Assets/Tests/EditMode/Board/
-Assets/Tests/PlayMode/Integration/
+Assets/Scripts/editModeTests/Board/
+Assets/Scripts/playModeTests/Integration/
 ```
 
 **TDD Loop:**
