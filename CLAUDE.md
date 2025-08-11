@@ -1,106 +1,123 @@
 # Claude Code Configuration for Unity C# Project
 
-## Development Guidelines
+## 1. Development Guidelines
 
-- Environment: Windows 11, PowerShell, VS Code, C# Dev Kit
-- Unity: 2022.3 LTS line (your project currently 2022.3.21f1)
-- Editor: VS Code 1.102.x with Unity and C# extensions
-- Language: C# 10 or project default, follow Unity’s supported features
-- Style: prefer explicit code and clarity over cleverness or micro performance
+- **Environment:** Windows 11, PowerShell, VS Code, C# Dev Kit
+- **Unity Version:** 2022.3 LTS line (project currently 2022.3.21f1)
+- **Editor:** VS Code 1.102.x with Unity and C# extensions
+- **Language:** C# 10 or Unity project default — follow Unity’s supported features
+- **Style:** Prefer explicit, readable code over cleverness or micro-optimizations
+- **Architecture:** Object-Oriented Programming wherever appropriate
+- **Structure & Naming:**
 
-### Core C# and Unity Rules
+  - `PascalCase` for classes and public members
+  - `camelCase` for private fields
+  - `_camelCase` or `m_` prefix for serialized private fields — pick one and stay consistent
 
-- Always preference Object Orientied Programming where appropriate
-- Use `PascalCase` for classes and public members, `camelCase` for privates, `_camelCase` or `m_` prefix is acceptable for serialized privates, choose one and stay consistent
-- Avoid ternary operators, use clear `if/else`
+- Avoid ternary operators — use explicit `if/else` for clarity
 - Prefer early returns to flatten control flow
-- Keep classes small and focused, one responsibility per type
-- Put runtime logic in `MonoBehaviour` only when it needs Unity lifecycle
-- Put pure logic in plain C# classes and structs inside an assembly definition
-- Use `ScriptableObject` for data configuration and light state, treat it like a read only config where possible
-- Use `[SerializeField] private` for inspector wired fields, avoid `public` fields
-- Avoid `FindObjectOfType`, `Find`, and string based lookups, wire references via inspector or a small composition root
-- Prefer composition over singletons, if a singleton is used then make it explicit and well documented
-- Coroutines are fine for frame based flow, use async only for pure C# tasks or I/O that does not touch Unity APIs
-- Do not call Unity API from background threads
+- Keep classes small, focused, and with a single responsibility
+- Separate Unity lifecycle code from pure logic:
+
+  - Runtime logic in `MonoBehaviour` only if Unity lifecycle is required
+  - Pure logic in plain C# classes/structs inside assembly definitions
+
+- Use `ScriptableObject` for configuration and light state — treat as read-only where possible
+- Use `[SerializeField] private` for inspector-wired fields; avoid `public` fields
+- Avoid `FindObjectOfType`, `Find`, or string-based lookups — wire references via inspector or a small composition root
+- Prefer composition over singletons — if a singleton is used, make it explicit and well documented
+- Coroutines are fine for frame-based flow; use `async` only for pure C# tasks or non-Unity I/O
+- Never call Unity API from background threads
 - Replace magic numbers with named `const` or `static readonly` fields
-- Log with intention, `Debug.LogError` for actionable failures, `Debug.LogWarning` for unusual but survivable states
+- Log intentionally — use `Debug.LogError` for actionable failures, `Debug.LogWarning` for survivable anomalies
 
-> Analogy: treat `MonoBehaviour` scripts like actors on stage, give them cues and references, keep heavy thinking in backstage classes.
+> Analogy: treat `MonoBehaviour` scripts like actors on stage — they take cues and references. Keep heavy thinking in backstage classes.
 
-### Error Handling
+---
 
-- Guard clauses for nulls and invalid state
-- Throw exceptions only in pure code paths, log and fail gracefully in gameplay paths
-- Never swallow exceptions silently
-- Prefer small validation helpers that make intent obvious
+## 2. Clean Code Principles
 
-### Clean Code Principles
+- **Descriptive Names:** Example — `CalculateLegalMoves`, `BoardState`, `MoveValidator`
+- **Small Methods:** One verb per method, avoid deep nesting
+- **No Duplication:** Extract helpers for repeated logic
+- **No Hidden Magic:** Make data flow obvious through parameters and return values
+- **Architectural Consistency:**
 
-- **Descriptive names**: `CalculateLegalMoves`, `BoardState`, `MoveValidator`
-- **Small methods**: one verb per method, no deep nesting
-- **No duplication**: extract helpers for repeated logic
-- **Comments explain intent** only when code cannot, update or delete stale comments
-- **No hidden magic**: make data flow obvious with parameters and return values
-- **Minimize global state**: pass dependencies, avoid hard singletons
-- **Architectural consistency**: if usage and class definitions disagree, fix the architecture not the call site hack
+  - If code usage and class definitions disagree, this is a red flag
+  - Investigate the actual class structure before changing calls
+  - Fix architecture, not the call site hack
+  - If a class needs new members, add them via constructor or proper methods — do not bypass initialization logic
 
-## Unity Testing Guidelines
+- **Minimal Global State:** Pass dependencies explicitly, avoid hard singletons
+- **Comment for Intent Only:** Update or remove stale comments
+- **Consistency Over Cleverness:** Maintain a clean, predictable architecture even if it’s less “smart”
+- **Readable First:** Prioritize maintainability over performance unless proven necessary
 
-- Framework: Unity Test Framework with NUnit
-- Test types:
+---
 
-  - **EditMode** for pure logic and fast feedback
-  - **PlayMode** for integration with scenes, prefabs, and MB lifecycles
+## 3. Testing Guidelines
 
-- Every new function or logic change needs tests
+**Framework:** Unity Test Framework with NUnit
 
-  - If test is not practical, explain why and what would make it testable
+**Test Types:**
 
-- Rules:
+- **EditMode:** For pure logic and fast feedback
+- **PlayMode:** For integration with scenes, prefabs, and Unity lifecycles
 
-  - Use real types and constructors, avoid faking internals
-  - Do not override object internals unless testing that behavior
-  - Keep test names behavior focused, for example `ItRejectsMovesThatLeaveKingInCheck`
-  - DRY test setup with builders or helpers
-  - Prefer deterministic data over mocks, mock external boundaries only
+**Expectations:**
 
-- Example folder layout:
+- Every new function or logic change must have tests — no exceptions without explanation
+- If a test is not practical, explain why and what would make it testable
+- Use real types and constructors; avoid faking internals unless testing that behavior
+- Never override object internals unless explicitly testing that override
+- Let constructors run full initialization and use results in tests
+- Keep test names behavior-focused: `ItRejectsMovesThatLeaveKingInCheck`
+- DRY test setup with builders/helpers
+- Prefer deterministic data over mocks; mock only external boundaries
+- Never assume a property exists without verifying in constructor or dynamically
+- If mismatch found between class definition and usage, fix usage — not the test
 
-  ```
-  Assets/Tests/EditMode/Board/
-  Assets/Tests/PlayMode/Integration/
-  ```
+**Folder Layout Example:**
 
-### TDD Loop
+```
+Assets/Tests/EditMode/Board/
+Assets/Tests/PlayMode/Integration/
+```
 
-- Red: write a failing EditMode test for one rule, for example en passant validation
-- Green: implement minimal logic in `Core` to pass
-- Refactor: clean names, extract helpers, keep behavior unchanged
-- Repeat with PlayMode tests when scene wiring is involved
+**TDD Loop:**
 
-## Code Documentation Guidelines
+1. **Red:** Write a failing EditMode test for a single rule
+2. **Green:** Implement minimal code to pass
+3. **Refactor:** Clean up names and helpers without changing behavior
+4. Repeat for PlayMode tests when scene wiring is involved
 
-- Prefer self documenting code and names
-- Use XML docs only for public types and methods that form a contract
-- Use short `// why` comments for non obvious decisions or engine quirks
+---
+
+## 4. Comment Philosophy
+
+- Only comment when **intent** or **assumptions** are not obvious from code
+- Never narrate what obvious code does — make the code explain itself
+- Use XML docs for public APIs that form contracts
+- Use `// why` comments for engine quirks or non-obvious decisions
+- Keep comments truthful and updated — delete outdated ones
 - Tags:
 
-  - `// TODO:` improvements that do not block correctness
-  - `// FIXME:` correctness issues that must be addressed
-  - `// HACK:` engine or package workaround that should be removed later
+  - `// TODO:` improvements that don’t block correctness
+  - `// FIXME:` correctness issues that must be fixed
+  - `// HACK:` temporary engine or package workarounds
 
-## Git and Assets
+**Good Example:**
 
-- DO NOT RUN GIT COMMIT COMMANDS, ONLY EVER REPLY WITH YOUR RECOMMENDED GIT MESSAGE AND I WILL CHECK IT MANUALLY BEFORE I CHOOSE TO COMMIT OR NOT
-- Use Git LFS for large binaries, for example textures, audio, models, large prefabs, scenes
-- Keep `Library/` out of source control, commit `Packages/manifest.json` and `packages-lock.json`
-- Keep generated files out of the repo unless Unity requires them
-- Scene and prefab changes should be intentional, avoid noisy edits by disabling auto save when reviewing
+```csharp
+// Skip first legal move — it's a placeholder inserted by the generator
+for (int i = 1; i < legalMoves.Count; i++) { ... }
+```
 
-## Commit Guidelines
+---
 
-### Format
+## 5. Git Commit Guidelines
+
+**Format:**
 
 ```
 <type>: <short summary>
@@ -108,124 +125,104 @@
 <detailed explanation, if needed>
 ```
 
-**Types**: `feat`, `fix`, `refactor`, `test`, `docs`, `chore`
+**Types:** `feat`, `fix`, `refactor`, `test`, `docs`, `chore`
 
-### Content Rules
+**Content Rules:**
 
 - One logical change per commit
-- Bundle logic and its tests together when it makes sense
-- Each commit must compile and pass tests locally
-- Use bullets in the body for multiple points
-- Explain why for reversals or risky changes
+- Bundle logic and tests when appropriate
+- Each commit must compile and pass local tests
+- Use bullets for multiple points
+- Explain reasoning for reversals or risky changes
 
-### Review and Approval Process
+**Review Process:**
 
-- **Never commit automatically**
-- After each change, stage only relevant files and output:
+- Never commit automatically
+- After each change, output:
 
-  - staged filenames
-  - the final commit message
-  - a short summary of what changed and why
+  - Staged filenames
+  - Final commit message
+  - Short “what & why” summary
 
-- Wait for my confirmation before proceeding
+- Wait for confirmation before proceeding
 
-#### Example Unity commit output
+**Example:**
 
 ```
 Staged files:
 - Assets/Scripts/Core/Board/MoveValidator.cs
 - Assets/Tests/EditMode/Board/MoveValidatorTests.cs
-- Assets/Scripts/Core/Board/Rules/CheckDetection.cs
-- Assets/Scripts/Core/Board/Rules/ICheckRule.cs
-```
 
-**Commit message**
-
-```
+Commit message:
 feat: add check detection and integrate with move validation
 
-- Introduce ICheckRule and CheckDetection for king in check evaluation
-- Extend MoveValidator to reject moves that leave king in check
-- Add EditMode tests for check scenarios and pinned piece cases
-- Keep logic in Core assembly, no UnityEngine dependencies
+- Introduce ICheckRule and CheckDetection
+- Extend MoveValidator to reject illegal king moves
+- Add EditMode tests for check scenarios
 ```
-
-**Why**
-
-- Centralizes check logic behind a small interface, makes rules composable and testable
-- Prevents illegal moves early, reduces UI level error handling
-
-## Task Scope and Context Limits
-
-- Large refactors must be split into small steps
-- If the full change does not fit, do a small chunk and state what remains, for example “first 3 files done, continue to proceed”
-
-## Refactoring Expectations
-
-- Mark questionable old code with `// legacy:` then explain the risk
-- Do not delete unknown code paths without confirmation
-- Prefer targeted refactors with tests that lock behavior
-- If architecture is unclear, propose a small diagram in text and request sign off
-
-## Unity Specific Practices
-
-- Prefer `Awake` for internal setup, `Start` for cross object wiring that needs other `Awake` calls to have run
-- Use `OnEnable` and `OnDisable` to subscribe and unsubscribe events
-- Avoid allocations inside `Update`, consider caching and pooling where it keeps code readable
-- Keep physics in `FixedUpdate`, keep visuals and input in `Update` or `LateUpdate`
-- Use `ScriptableObject` for tunable parameters, keep runtime state separate from config
-- Keep scene load boundaries clear, consider a bootstrap scene that wires systems
-
-## AI Commenting Rules
-
-1. Comment only when intent is not obvious
-2. Never narrate what obvious code does
-3. Explain assumptions, constraints, and engine quirks
-4. Flag non obvious behavior and edge cases
-5. Use `TODO`, `FIXME`, `HACK` responsibly
-6. XML docs for public APIs that other code depends on
-7. Delete comments that no longer add value
-
-### Good comment example
-
-```csharp
-// Skip first legal move, it is a null move placeholder inserted by the generator
-for (int i = 1; i < legalMoves.Count; i++) { ... }
-```
-
-## Testing Philosophy, Extended
-
-- Behavior based test names, for example `ItFlagsCheckWhenAttackerHasLineOfSight`
-- Minimal fixtures, prefer builders for complex board setups
-- Test observable results, not private fields
-- Keep EditMode fast and abundant, keep PlayMode focused and few
-
-## Git Hygiene, Extended
-
-- Every commit answers what changed and why
-- No broken states in history
-- Use present tense in summaries
-
-## Debugging and Diagnostics
-
-- Prefer small, scoped `ILogger` style wrappers if needed, or conditional logs
-- Include board snapshots or FEN strings in failure messages when useful
-- Make error messages actionable, for example “King position not found in BoardState”
-
-## Change Friendly Design
-
-- Model concepts first, then code
-- Design seams where rules can be swapped, for example `IMoveRule`, `ICheckRule`
-- Keep dependencies explicit so tests can assemble systems easily
 
 ---
 
-### Quick Starter Checklist for Claude
+## 6. Task Scope & Refactoring
 
-1. Confirm project opens in VS Code from Unity, solution and csproj generated
+- Large refactors must be split into small, testable steps
+- If full change doesn’t fit in one task, clearly state what’s done and what remains
+- Mark questionable old code with `// legacy:` and explain risk
+- Don’t delete unknown code without confirmation
+- Prefer targeted refactors with tests to lock behavior
+- If architecture is unclear, propose a small diagram for approval
+
+---
+
+## 7. Unity Specific Practices
+
+- `Awake` for internal setup
+- `Start` for cross-object wiring after all `Awake` calls
+- `OnEnable`/`OnDisable` for event subscriptions
+- Avoid allocations in `Update` — use caching/pooling if still readable
+- Keep physics in `FixedUpdate`; visuals and input in `Update` or `LateUpdate`
+- `ScriptableObject` for tunable parameters — runtime state separate from config
+- Keep scene load boundaries explicit; use a bootstrap scene for wiring systems
+
+---
+
+## 8. Debugging & Diagnostics
+
+- Prefer scoped `ILogger`-style wrappers or conditional logs
+- Include board snapshots or FEN strings in failure messages where useful
+- Make error messages actionable:
+
+  - Example: `"King position not found in BoardState"`
+
+- Log with intention — avoid noise that hides real issues
+
+---
+
+## 9. Git LFS & Unity Asset Management
+
+- Use Git LFS for large binaries
+- Textures, audio files, 3D models, large prefabs, and scene files should be stored using Git LFS to avoid bloating the repository.
+- Keep Library/ out of source control
+- Unity will regenerate this folder automatically — committing it will cause unnecessary merge conflicts and repo size issues.
+- Scene and prefab changes should be intentional
+- Avoid noisy edits by disabling auto-save when reviewing changes.
+- Stage and commit only the modified assets that are relevant to your change.
+
+Explicit Warning:
+
+DO NOT RUN git commit COMMANDS — ONLY EVER REPLY WITH YOUR RECOMMENDED GIT MESSAGE.
+All commits will be reviewed and executed manually.
+
+---
+
+**Quick Starter Checklist for Claude:**
+
+1. Confirm Unity project opens in VS Code, solution and csproj generated
 2. Confirm `.asmdef` boundaries for Core, Gameplay, Presentation, Tests
 3. Run EditMode tests, then PlayMode tests
 4. Add or adjust tests before code changes
-5. Output staged files, commit message, and short why, then pause
+5. Output staged files, commit message, and “what & why”, then pause
 
-> Think of scenes as levels and Core as the rulebook. Actors on stage should read from the rulebook, not write new rules mid performance.
+> Think of scenes as levels and Core as the rulebook. Actors on stage follow the rulebook — they don’t rewrite it mid-performance.
+
+---
