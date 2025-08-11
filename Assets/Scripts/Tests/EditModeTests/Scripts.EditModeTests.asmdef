@@ -2,11 +2,13 @@
     "name": "Scripts.EditModeTests",
     "rootNamespace": "",
     "references": [
-        "UnityEditor.TestRunner",
         "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
         "Game.Runtime"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
