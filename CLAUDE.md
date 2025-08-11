@@ -129,6 +129,8 @@ for (int i = 1; i < legalMoves.Count; i++) { ... }
 
 **Content Rules:**
 
+- YOU MUST FOLLOW THE CONVENTIONAL COMMIT FORMAT AND ONLY EVER REPLY WITH THE COMMIT MESSAGE AND A SMALL EXPLAINATION OF YOUR CHANGES FOR MY UNDERSTANDING
+  https://www.conventionalcommits.org/en/v1.0.0/
 - One logical change per commit
 - Bundle logic and tests when appropriate
 - Each commit must compile and pass local tests
