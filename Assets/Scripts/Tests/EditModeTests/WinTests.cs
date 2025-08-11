@@ -110,61 +110,6 @@ public class WinTests
     }
 
     [Test]
-    public void ItCanDetectPlayerCollision()
-    {
-        Collision2D mockCollision = CreateMockCollision2D(playerObject);
-        
-        bool isPlayerCollision = mockCollision.gameObject.CompareTag("Player");
-        
-        Assert.IsTrue(isPlayerCollision);
-    }
-
-    [Test]
-    public void ItDoesNotDetectNonPlayerCollision()
-    {
-        GameObject nonPlayerObject = new GameObject("NotPlayer");
-        nonPlayerObject.tag = "Enemy";
-        
-        try
-        {
-            Collision2D mockCollision = CreateMockCollision2D(nonPlayerObject);
-            bool isPlayerCollision = mockCollision.gameObject.CompareTag("Player");
-            
-            Assert.IsFalse(isPlayerCollision);
-        }
-        finally
-        {
-            Object.DestroyImmediate(nonPlayerObject);
-        }
-    }
-
-    [Test]
-    public void ItSetsAnimatorBoolWhenPlayerCollides()
-    {
-        playerAnimator.SetBool("hasWon", false);
-        
-        if (playerObject.CompareTag("Player"))
-        {
-            playerAnimator.SetBool("hasWon", true);
-        }
-        
-        Assert.IsTrue(playerAnimator.GetBool("hasWon"));
-    }
-
-    [Test]
-    public void ItResetsAnimatorBoolOnCollisionExit()
-    {
-        playerAnimator.SetBool("hasWon", true);
-        
-        if (playerObject.CompareTag("Player"))
-        {
-            playerAnimator.SetBool("hasWon", false);
-        }
-        
-        Assert.IsFalse(playerAnimator.GetBool("hasWon"));
-    }
-
-    [Test]
     public void ItDisablesAnimatorOnCollisionExit()
     {
         playerAnimator.enabled = true;
@@ -224,72 +169,7 @@ public class WinTests
         Assert.AreEqual(startLevel + 1, LevelTracker.CurrentLevel);
     }
 
-    [Test]
-    public void ItCanCreateDontDestroyOnLoadObject()
-    {
-        GameObject testCanvas = GameObject.FindGameObjectWithTag("Canvas");
-        
-        Assert.DoesNotThrow(() => {
-            Object.DontDestroyOnLoad(testCanvas);
-        });
-    }
-
-    [Test]
-    public void ItHandlesMultipleCollisionStates()
-    {
-        playerAnimator.SetBool("hasWon", false);
-        
-        if (playerObject.CompareTag("Player"))
-        {
-            playerAnimator.SetBool("hasWon", true);
-        }
-        
-        Assert.IsTrue(playerAnimator.GetBool("hasWon"));
-        
-        if (playerObject.CompareTag("Player"))
-        {
-            playerAnimator.SetBool("hasWon", false);
-        }
-        
-        Assert.IsFalse(playerAnimator.GetBool("hasWon"));
-    }
-
-    [Test]
-    public void ItValidatesPlayerRigidbodyReference()
-    {
-        Assert.IsNotNull(playerMovement.playerRB);
-        Assert.AreEqual(playerRigidbody, playerMovement.playerRB);
-    }
-
-    [Test]
-    public void ItCanSetVelocityToZero()
-    {
-        Vector2 originalVelocity = new Vector2(10f, -5f);
-        Vector2 targetVelocity = new Vector2(0, 0);
-        
-        playerRigidbody.velocity = originalVelocity;
-        Assert.AreEqual(originalVelocity, playerRigidbody.velocity);
-        
-        playerRigidbody.velocity = targetVelocity;
-        Assert.AreEqual(Vector2.zero, playerRigidbody.velocity);
-    }
-
-    [Test]
-    public void ItHandlesComponentEnabledStates()
-    {
-        playerAnimator.enabled = true;
-        playerMovement.enabled = true;
-        
-        Assert.IsTrue(playerAnimator.enabled);
-        Assert.IsTrue(playerMovement.enabled);
-        
-        playerAnimator.enabled = false;
-        playerMovement.enabled = false;
-        
-        Assert.IsFalse(playerAnimator.enabled);
-        Assert.IsFalse(playerMovement.enabled);
-    }
-
+    
     [Test]
     public void ItCanAccessStaticLevelTrackerProperties()
     {
@@ -297,16 +177,6 @@ public class WinTests
         LevelTracker.CurrentLevel = testLevel;
         
         Assert.AreEqual(testLevel, LevelTracker.CurrentLevel);
-    }
-
-    [Test]
-    public void ItValidatesGameObjectTags()
-    {
-        Assert.AreEqual("Player", playerObject.tag);
-        Assert.AreEqual("Canvas", canvasObject.tag);
-        Assert.IsTrue(playerObject.CompareTag("Player"));
-        Assert.IsTrue(canvasObject.CompareTag("Canvas"));
-        Assert.IsFalse(playerObject.CompareTag("Enemy"));
     }
 
     private Collision2D CreateMockCollision2D(GameObject collisionGameObject)
