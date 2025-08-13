@@ -14,7 +14,7 @@ permissions:
 
 env:
   PROJECT_PATH: .
-  UNITY_VERSION: auto # set to your exact version if auto fails (e.g., 2022.3.21f1)
+  UNITY_VERSION: 2022.3.21f1
   MIN_COVERAGE: "0" # set to "40" for 40% gate
 
 jobs:
@@ -45,6 +45,16 @@ jobs:
           if [ -n "$missing" ]; then
             echo "Unfetched LFS files:"; echo "$missing"; exit 1
           fi
+
+      - name: Cache UPM (packages)
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/unity3d
+            ~/.local/share/unity3d
+          key: upm-${{ env.UNITY_VERSION }}-${{ hashFiles('**/Packages/manifest.json', '**/Packages/packages-lock.json') }}
+          restore-keys: |
+            upm-${{ env.UNITY_VERSION }}-
 
       - name: Guard – UNITY_LICENSE present
         run: |
@@ -106,6 +116,16 @@ jobs:
           if [ -n "$missing" ]; then
             echo "Unfetched LFS files:"; echo "$missing"; exit 1
           fi
+
+      - name: Cache UPM (packages)
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/unity3d
+            ~/.local/share/unity3d
+          key: upm-${{ env.UNITY_VERSION }}-${{ hashFiles('**/Packages/manifest.json', '**/Packages/packages-lock.json') }}
+          restore-keys: |
+            upm-${{ env.UNITY_VERSION }}-
 
       - name: Guard – UNITY_LICENSE present
         run: |
