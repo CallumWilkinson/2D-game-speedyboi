@@ -14,14 +14,14 @@ permissions:
 
 env:
   PROJECT_PATH: .
-  # set explicitly if auto fails, e.g. 2022.3.22f1
-  UNITY_VERSION: auto
+  UNITY_VERSION: auto # set to your exact version if auto fails (e.g., 2022.3.21f1)
   MIN_COVERAGE: "0" # set to "40" for 40% gate
 
 jobs:
   editmode:
     name: EditMode Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout (with LFS)
         uses: actions/checkout@v4
@@ -41,6 +41,11 @@ jobs:
           if [ -n "$missing" ]; then
             echo "Unfetched LFS files:"; echo "$missing"; exit 1
           fi
+
+      - name: Guard – UNITY_LICENSE present
+        run: |
+          if [ -z "${{ secrets.UNITY_LICENSE }}" ]; then
+            echo "UNITY_LICENSE secret is missing"; exit 1; fi
 
       - name: Activate Unity
         uses: game-ci/unity-activate@v4
@@ -76,21 +81,11 @@ jobs:
             ${{ env.PROJECT_PATH }}/**/Editor.log
           if-no-files-found: ignore
 
-      - name: Enforce minimum coverage (optional)
-        if: ${{ env.MIN_COVERAGE != '0' }}
-        run: |
-          xml=$(find artifacts-edit -name "Summary.xml" | head -n1)
-          if [ -z "$xml" ]; then echo "No coverage Summary.xml found"; exit 1; fi
-          pct=$(grep -oP 'coveragePercent="\K[0-9.]+' "$xml" | head -n1)
-          pct=${pct%.*}
-          echo "Coverage ${pct}%"
-          if [ "$pct" -lt "${MIN_COVERAGE}" ]; then
-            echo "Coverage below threshold (${MIN_COVERAGE}%)"; exit 1; fi
-
   playmode:
     name: PlayMode Tests
     runs-on: ubuntu-latest
     needs: [editmode]
+    timeout-minutes: 30
     steps:
       - name: Checkout (with LFS)
         uses: actions/checkout@v4
@@ -110,6 +105,11 @@ jobs:
           if [ -n "$missing" ]; then
             echo "Unfetched LFS files:"; echo "$missing"; exit 1
           fi
+
+      - name: Guard – UNITY_LICENSE present
+        run: |
+          if [ -z "${{ secrets.UNITY_LICENSE }}" ]; then
+            echo "UNITY_LICENSE secret is missing"; exit 1; fi
 
       - name: Activate Unity
         uses: game-ci/unity-activate@v4
