@@ -1,0 +1,132 @@
+name: Unity Tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: unity-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  PROJECT_PATH: .
+  # set explicitly if auto fails, e.g. 2022.3.22f1
+  UNITY_VERSION: auto
+  MIN_COVERAGE: "0" # set to "40" for 40% gate
+
+jobs:
+  editmode:
+    name: EditMode Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (with LFS)
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+          fetch-depth: 0
+
+      - name: Ensure/Fetch LFS
+        run: |
+          git lfs install --local
+          git lfs pull
+          git lfs checkout
+
+      - name: Validate LFS pointers resolved
+        run: |
+          missing=$(git lfs ls-files | awk '$2=="-" {print}')
+          if [ -n "$missing" ]; then
+            echo "Unfetched LFS files:"; echo "$missing"; exit 1
+          fi
+
+      - name: Cache Unity Library
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.PROJECT_PATH }}/Library
+          key: lib-${{ env.UNITY_VERSION }}-editmode-ubuntu-${{ hashFiles('**/Packages/manifest.json') }}
+          restore-keys: |
+            lib-${{ env.UNITY_VERSION }}-editmode-ubuntu-
+
+      - name: Run EditMode tests
+        uses: game-ci/unity-test-runner@v4
+        with:
+          projectPath: ${{ env.PROJECT_PATH }}
+          unityVersion: ${{ env.UNITY_VERSION }}
+          testMode: EditMode
+          artifactsPath: artifacts-edit
+          coverageOptions: generateAdditionalMetrics;generateHtmlReport;assemblyFilters:+*
+
+      - name: Upload artifacts (EditMode)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: editmode-artifacts
+          path: |
+            artifacts-edit/**
+            ${{ env.PROJECT_PATH }}/**/Editor.log
+          if-no-files-found: ignore
+
+      - name: Enforce minimum coverage (optional)
+        if: ${{ env.MIN_COVERAGE != '0' }}
+        run: |
+          xml=$(find artifacts-edit -name "Summary.xml" | head -n1)
+          if [ -z "$xml" ]; then echo "No coverage Summary.xml found"; exit 1; fi
+          pct=$(grep -oP 'coveragePercent="\K[0-9.]+' "$xml" | head -n1)
+          pct=${pct%.*}
+          echo "Coverage ${pct}%"
+          if [ "$pct" -lt "${MIN_COVERAGE}" ]; then
+            echo "Coverage below threshold (${MIN_COVERAGE}%)"; exit 1; fi
+
+  playmode:
+    name: PlayMode Tests
+    runs-on: ubuntu-latest
+    needs: [editmode]
+    steps:
+      - name: Checkout (with LFS)
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+          fetch-depth: 0
+
+      - name: Ensure/Fetch LFS
+        run: |
+          git lfs install --local
+          git lfs pull
+          git lfs checkout
+
+      - name: Validate LFS pointers resolved
+        run: |
+          missing=$(git lfs ls-files | awk '$2=="-" {print}')
+          if [ -n "$missing" ]; then
+            echo "Unfetched LFS files:"; echo "$missing"; exit 1
+          fi
+
+      - name: Cache Unity Library
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.PROJECT_PATH }}/Library
+          key: lib-${{ env.UNITY_VERSION }}-playmode-ubuntu-${{ hashFiles('**/Packages/manifest.json') }}
+          restore-keys: |
+            lib-${{ env.UNITY_VERSION }}-playmode-ubuntu-
+
+      - name: Run PlayMode tests (headless)
+        uses: game-ci/unity-test-runner@v4
+        with:
+          projectPath: ${{ env.PROJECT_PATH }}
+          unityVersion: ${{ env.UNITY_VERSION }}
+          testMode: PlayMode
+          artifactsPath: artifacts-play
+          coverageOptions: generateAdditionalMetrics;generateHtmlReport;assemblyFilters:+*
+
+      - name: Upload artifacts (PlayMode)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playmode-artifacts
+          path: |
+            artifacts-play/**
+            ${{ env.PROJECT_PATH }}/**/Editor.log
+          if-no-files-found: ignore
