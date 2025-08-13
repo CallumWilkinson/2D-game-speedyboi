@@ -52,9 +52,9 @@ jobs:
           path: |
             ~/.cache/unity3d
             ~/.local/share/unity3d
-          key: upm-${{ env.UNITY_VERSION }}-${{ hashFiles('**/Packages/manifest.json', '**/Packages/packages-lock.json') }}
+          key: upm-${{ runner.os }}-${{ env.UNITY_VERSION }}-${{ hashFiles('**/Packages/manifest.json', '**/Packages/packages-lock.json') }}
           restore-keys: |
-            upm-${{ env.UNITY_VERSION }}-
+            upm-${{ runner.os }}-${{ env.UNITY_VERSION }}-
 
       - name: Guard – UNITY_LICENSE present
         run: |
@@ -65,9 +65,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ env.PROJECT_PATH }}/Library
-          key: lib-${{ env.UNITY_VERSION }}-editmode-ubuntu-${{ hashFiles('**/Packages/manifest.json') }}
+          key: lib-${{ runner.os }}-${{ env.UNITY_VERSION }}-${{ hashFiles('**/Packages/manifest.json', '**/Packages/packages-lock.json') }}
           restore-keys: |
-            lib-${{ env.UNITY_VERSION }}-editmode-ubuntu-
+            lib-${{ runner.os }}-${{ env.UNITY_VERSION }}-
 
       - name: Run EditMode tests
         uses: game-ci/unity-test-runner@v4
@@ -123,9 +123,9 @@ jobs:
           path: |
             ~/.cache/unity3d
             ~/.local/share/unity3d
-          key: upm-${{ env.UNITY_VERSION }}-${{ hashFiles('**/Packages/manifest.json', '**/Packages/packages-lock.json') }}
+          key: upm-${{ runner.os }}-${{ env.UNITY_VERSION }}-${{ hashFiles('**/Packages/manifest.json', '**/Packages/packages-lock.json') }}
           restore-keys: |
-            upm-${{ env.UNITY_VERSION }}-
+            upm-${{ runner.os }}-${{ env.UNITY_VERSION }}-
 
       - name: Guard – UNITY_LICENSE present
         run: |
@@ -136,9 +136,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ env.PROJECT_PATH }}/Library
-          key: lib-${{ env.UNITY_VERSION }}-playmode-ubuntu-${{ hashFiles('**/Packages/manifest.json') }}
+          key: lib-${{ runner.os }}-${{ env.UNITY_VERSION }}-${{ hashFiles('**/Packages/manifest.json', '**/Packages/packages-lock.json') }}
           restore-keys: |
-            lib-${{ env.UNITY_VERSION }}-playmode-ubuntu-
+            lib-${{ runner.os }}-${{ env.UNITY_VERSION }}-
 
       - name: Run PlayMode tests (headless)
         uses: game-ci/unity-test-runner@v4
