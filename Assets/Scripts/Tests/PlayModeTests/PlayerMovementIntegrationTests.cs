@@ -1,10 +1,10 @@
 using System.Collections;
 using NUnit.Framework;
+using Tests.Support;
 using UnityEngine;
 using UnityEngine.TestTools;
-
 [TestFixture]
-public class PlayerMovementIntegrationTests
+public class PlayerMovementIntegrationTests : PlayModeBootstrap
 {
     private GameObject playerObject;
     private PlayerMovement playerMovement;
@@ -52,13 +52,13 @@ public class PlayerMovementIntegrationTests
     {
         Vector3 initialPosition = playerObject.transform.position;
         playerMovement.input = 1f;
-        
+
         yield return new WaitForFixedUpdate();
-        
+
         playerMovement.playerRB.velocity = new Vector2(playerMovement.input * PlayerMovement.speed, 0f);
-        
+
         yield return new WaitForSeconds(0.1f);
-        
+
         Assert.IsTrue(playerObject.transform.position.x >= initialPosition.x);
     }
 
