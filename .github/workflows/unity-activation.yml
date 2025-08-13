@@ -8,4 +8,4 @@ jobs:
       - name: Request .alf
         uses: game-ci/unity-request-activation-file@v4
         with:
-          unityVersion: ${{ inputs.unityVersion || 'auto' }}
+          unityVersion: ${{ inputs.unityVersion || '2022.3.21f1' }}
