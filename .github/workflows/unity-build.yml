@@ -67,10 +67,13 @@ jobs:
           key: upm-${{ runner.os }}-${{ hashFiles('ProjectSettings/ProjectVersion.txt','Packages/manifest.json','Packages/packages-lock.json') }}
           restore-keys: upm-${{ runner.os }}-
 
-      - name: Cache Unity Library (per target + version)
-        uses: actions/cache@v4
+      # ---- Restore Library cache
+      - name: Restore Unity Library cache
+        id: lib-cache
+        uses: actions/cache/restore@v4
         with:
           path: ${{ env.PROJECT_PATH }}/Library
+          # Per-OS + per-target + per-Unity+packages hash
           key: lib-${{ runner.os }}-${{ inputs.target }}-${{ hashFiles('ProjectSettings/ProjectVersion.txt','Packages/manifest.json','Packages/packages-lock.json') }}
           restore-keys: |
             lib-${{ runner.os }}-${{ inputs.target }}-
@@ -93,6 +96,14 @@ jobs:
           unityVersion: auto
           targetPlatform: ${{ inputs.target }}
           versioning: None
+
+      # ---- Save Library cache only if there wasn’t an exact hit
+      - name: Save Unity Library cache (on miss)
+        if: steps.lib-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ env.PROJECT_PATH }}/Library
+          key: lib-${{ runner.os }}-${{ inputs.target }}-${{ hashFiles('ProjectSettings/ProjectVersion.txt','Packages/manifest.json','Packages/packages-lock.json') }}
 
       - name: Upload build artifact (no zip)
         uses: actions/upload-artifact@v4
@@ -139,13 +150,16 @@ jobs:
           key: upm-${{ runner.os }}-${{ hashFiles('ProjectSettings/ProjectVersion.txt','Packages/manifest.json','Packages/packages-lock.json') }}
           restore-keys: upm-${{ runner.os }}-
 
-      - name: Cache Unity Library (per target + version)
-        uses: actions/cache@v4
+        # ---- Restore Library cache
+      - name: Restore Unity Library cache
+        id: lib-cache
+        uses: actions/cache/restore@v4
         with:
           path: ${{ env.PROJECT_PATH }}/Library
-          key: lib-${{ runner.os }}-StandaloneWindows64-${{ hashFiles('ProjectSettings/ProjectVersion.txt','Packages/manifest.json','Packages/packages-lock.json') }}
+          # Per-OS + per-target + per-Unity+packages hash
+          key: lib-${{ runner.os }}-${{ inputs.target }}-${{ hashFiles('ProjectSettings/ProjectVersion.txt','Packages/manifest.json','Packages/packages-lock.json') }}
           restore-keys: |
-            lib-${{ runner.os }}-StandaloneWindows64-
+            lib-${{ runner.os }}-${{ inputs.target }}-
             lib-${{ runner.os }}-
 
       - name: Guard – License present (Personal or Pro)
@@ -167,10 +181,18 @@ jobs:
           targetPlatform: StandaloneWindows64
           versioning: None
 
+      # ---- Save Library cache only if there wasn’t an exact hit
+      - name: Save Unity Library cache (on miss)
+        if: steps.lib-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ env.PROJECT_PATH }}/Library
+          key: lib-${{ runner.os }}-${{ inputs.target }}-${{ hashFiles('ProjectSettings/ProjectVersion.txt','Packages/manifest.json','Packages/packages-lock.json') }}
+
       - name: Upload build artifact (no zip)
         uses: actions/upload-artifact@v4
         with:
-          name: Build-StandaloneWindows64
+          name: Build-${{ inputs.target }}
           path: build
           retention-days: ${{ inputs.retentionDays }}
           compression-level: 1

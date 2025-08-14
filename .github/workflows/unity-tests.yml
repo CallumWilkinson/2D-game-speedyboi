@@ -42,21 +42,21 @@ jobs:
       - name: Checkout (with LFS)
         uses: actions/checkout@v4
         with:
-          lfs: true
-          fetch-depth: 1 # faster unless you truly need history
+          fetch-depth: 1
+          lfs: ${{ inputs.mode != 'editmode' }}
 
       - name: Ensure/Fetch LFS
+        if: inputs.mode != 'editmode'
         run: |
           git lfs install --local
-          git lfs pull
-          git lfs checkout
+          git lfs pull && git lfs checkout
+          if git lfs ls-files | awk '$2=="-"{exit 1}'; then echo "LFS OK"; else exit 1; fi
 
       - name: Validate LFS pointers resolved
+        if: inputs.mode != 'editmode'
         run: |
           missing=$(git lfs ls-files | awk '$2=="-" {print}')
-          if [ -n "$missing" ]; then
-            echo "Unfetched LFS files:"; echo "$missing"; exit 1
-          fi
+          if [ -n "$missing" ]; then echo "Unfetched LFS files:"; echo "$missing"; exit 1; fi
 
       # ---------- CACHES ----------
       - name: Cache UPM (packages)
@@ -66,23 +66,24 @@ jobs:
           path: |
             ~/.cache/unity3d
             ~/.local/share/unity3d
-          key: upm-${{ runner.os }}-${{ env.UNITY_VERSION }}-${{ hashFiles('**/Packages/manifest.json', '**/Packages/packages-lock.json') }}
-          restore-keys: |
-            upm-${{ runner.os }}-${{ env.UNITY_VERSION }}-
+          key: upm-${{ runner.os }}-${{ hashFiles('ProjectSettings/ProjectVersion.txt','**/Packages/manifest.json','**/Packages/packages-lock.json') }}
+          restore-keys: upm-${{ runner.os }}-
 
-      - name: Cache Unity Library
-        id: lib
-        uses: actions/cache@v4
+      # Restore Library cache
+      - name: Restore Unity Library cache
+        id: lib-cache
+        uses: actions/cache/restore@v4
         with:
           path: ${{ env.PROJECT_PATH }}/Library
-          key: lib-${{ runner.os }}-${{ env.UNITY_VERSION }}-${{ hashFiles('**/Packages/manifest.json', '**/Packages/packages-lock.json') }}
+          key: lib-${{ runner.os }}-tests-${{ hashFiles('ProjectSettings/ProjectVersion.txt','Packages/manifest.json','Packages/packages-lock.json') }}
           restore-keys: |
-            lib-${{ runner.os }}-${{ env.UNITY_VERSION }}-
+            lib-${{ runner.os }}-tests-
+            lib-${{ runner.os }}-
 
       - name: Cache status
         run: |
-          echo "UPM cache hit: ${{ steps.upm.outputs.cache-hit }}"
-          echo "Library cache hit: ${{ steps.lib.outputs.cache-hit }}"
+          echo "UPM cache hit: ${{ steps.upm.outputs['cache-hit'] }}"
+          echo "Library cache hit: ${{ steps.lib-cache.outputs['cache-hit'] }}"
 
       - name: Guard – UNITY_LICENSE present
         run: |
@@ -145,3 +146,11 @@ jobs:
             ${{ env.PROJECT_PATH }}/**/Editor.log
           if-no-files-found: ignore
           retention-days: 14
+
+      # Save Library cache only if no exact hit
+      - name: Save Unity Library cache (on miss)
+        if: always() && steps.lib-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ env.PROJECT_PATH }}/Library
+          key: lib-${{ runner.os }}-tests-${{ hashFiles('ProjectSettings/ProjectVersion.txt','Packages/manifest.json','Packages/packages-lock.json') }}
