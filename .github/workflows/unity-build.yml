@@ -1,0 +1,172 @@
+name: Unity Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Build target"
+        type: choice
+        options: [StandaloneWindows64, Linux64, WebGL]
+        default: StandaloneWindows64
+        required: true
+      winIL2CPP:
+        description: "Windows build uses IL2CPP (requires Windows runner)"
+        type: boolean
+        default: false
+        required: true
+      retentionDays:
+        description: "Artifact retention days"
+        type: number
+        default: 1
+        required: true
+
+concurrency:
+  group: unity-build-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  PROJECT_PATH: .
+  # You can pin, or let GameCI auto-detect from ProjectSettings/ProjectVersion.txt
+  UNITY_VERSION: auto
+
+jobs:
+  # -------- Default path: Linux runner (fast, cheaper)
+  build-linux:
+    name: Build (${{ inputs.target }}) on Linux
+    runs-on: ubuntu-latest
+    if: ${{ !(inputs.target == 'StandaloneWindows64' && inputs.winIL2CPP == true) }}
+    timeout-minutes: 60
+    env:
+      UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+      UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+      UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+      UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
+
+    steps:
+      - name: Checkout (with LFS)
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+          fetch-depth: 0
+
+      - name: Ensure/Fetch LFS
+        run: |
+          git lfs install --local
+          git lfs pull
+          git lfs checkout
+
+      - name: Validate LFS pointers resolved
+        run: |
+          if git lfs ls-files | awk '$2=="-"{exit 1}'; then echo "LFS OK"; else
+            echo "Missing LFS files"; exit 1; fi
+
+      - name: Cache Unity Library
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.PROJECT_PATH }}/Library
+          key: lib-${{ runner.os }}-${{ env.UNITY_VERSION }}-${{ hashFiles('**/Packages/manifest.json', '**/Packages/packages-lock.json') }}
+          restore-keys: |
+            lib-${{ runner.os }}-${{ env.UNITY_VERSION }}-
+            lib-${{ runner.os }}-
+
+      - name: Guard – License present (Personal or Pro)
+        run: |
+          if [ -z "${UNITY_LICENSE}${UNITY_SERIAL}" ]; then
+            echo "Provide UNITY_LICENSE (Personal) or UNITY_SERIAL (Pro) in repo secrets."; exit 1; fi
+
+      - name: Build (GameCI Unity Builder)
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ env.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ env.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ env.UNITY_PASSWORD }}
+          UNITY_SERIAL: ${{ env.UNITY_SERIAL }}
+        with:
+          projectPath: ${{ env.PROJECT_PATH }}
+          unityVersion: ${{ env.UNITY_VERSION }}
+          targetPlatform: ${{ inputs.target }}
+          versioning: Semantic
+          # projectPath: .  # uncomment/change if your project is in a subfolder
+          # buildMethod: My.Editor.Build.Run  # optional: use a custom method
+
+      - name: Zip build folder
+        run: |
+          cd build
+          zip -r ../Build_${{ inputs.target }}.zip .
+          cd ..
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Build-${{ inputs.target }}
+          path: Build_${{ inputs.target }}.zip
+          if-no-files-found: error
+          retention-days: ${{ inputs.retentionDays }}
+
+  # -------- Optional path: Windows runner for Windows+IL2CPP
+  build-windows-il2cpp:
+    name: Build (StandaloneWindows64 IL2CPP) on Windows
+    runs-on: windows-latest
+    if: ${{ inputs.target == 'StandaloneWindows64' && inputs.winIL2CPP == true }}
+    timeout-minutes: 90
+    env:
+      UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+      UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+      UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+      UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
+
+    steps:
+      - name: Checkout (with LFS)
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+          fetch-depth: 0
+
+      - name: Ensure/Fetch LFS
+        shell: bash
+        run: |
+          git lfs install --local
+          git lfs pull
+          git lfs checkout
+          if git lfs ls-files | awk '$2=="-"{exit 1}'; then echo "LFS OK"; else
+            echo "Missing LFS files"; exit 1; fi
+
+      - name: Cache Unity Library
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.PROJECT_PATH }}/Library
+          key: lib-${{ runner.os }}-${{ env.UNITY_VERSION }}-${{ hashFiles('**/Packages/manifest.json', '**/Packages/packages-lock.json') }}
+          restore-keys: |
+            lib-${{ runner.os }}-${{ env.UNITY_VERSION }}-
+            lib-${{ runner.os }}-
+
+      - name: Build (GameCI Unity Builder)
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ env.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ env.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ env.UNITY_PASSWORD }}
+          UNITY_SERIAL: ${{ env.UNITY_SERIAL }}
+        with:
+          projectPath: ${{ env.PROJECT_PATH }}
+          unityVersion: ${{ env.UNITY_VERSION }}
+          targetPlatform: StandaloneWindows64
+          versioning: Semantic
+
+      - name: Zip build folder
+        shell: bash
+        run: |
+          cd build
+          zip -r ../Build_StandaloneWindows64.zip .
+          cd ..
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Build-StandaloneWindows64
+          path: Build_StandaloneWindows64.zip
+          if-no-files-found: error
+          retention-days: ${{ inputs.retentionDays }}
