@@ -29,11 +29,10 @@ permissions:
 
 env:
   PROJECT_PATH: .
-  # You can pin, or let GameCI auto-detect from ProjectSettings/ProjectVersion.txt
   UNITY_VERSION: auto
 
 jobs:
-  # -------- Default path: Linux runner (fast, cheaper)
+  # ---------- Linux path (WebGL, Linux, Win-Mono)
   build-linux:
     name: Build (${{ inputs.target }}) on Linux
     runs-on: ubuntu-latest
@@ -57,11 +56,9 @@ jobs:
           git lfs install --local
           git lfs pull
           git lfs checkout
-          # fail if any pointers unresolved
           if git lfs ls-files | awk '$2=="-"{exit 1}'; then echo "LFS OK"; else exit 1; fi
 
-      # -------- UPM cache (packages)
-      - name: Cache UPM
+      - name: Cache UPM (packages)
         uses: actions/cache@v4
         with:
           path: |
@@ -70,8 +67,7 @@ jobs:
           key: upm-${{ runner.os }}-${{ hashFiles('ProjectSettings/ProjectVersion.txt','Packages/manifest.json','Packages/packages-lock.json') }}
           restore-keys: upm-${{ runner.os }}-
 
-      # -------- Library cache (per target + version)
-      - name: Cache Unity Library
+      - name: Cache Unity Library (per target + version)
         uses: actions/cache@v4
         with:
           path: ${{ env.PROJECT_PATH }}/Library
@@ -98,16 +94,15 @@ jobs:
           targetPlatform: ${{ inputs.target }}
           versioning: None
 
-      # --- Upload without zipping (faster). Let Actions compress with zstd.
-      - name: Upload build artifact
+      - name: Upload build artifact (no zip)
         uses: actions/upload-artifact@v4
         with:
           name: Build-${{ inputs.target }}
           path: build
           retention-days: ${{ inputs.retentionDays }}
-          compression-level: 1 # lower = faster (0..9)
+          compression-level: 1
 
-    # -------- Optional path: Windows runner for Windows+IL2CPP
+  # ---------- Windows path (Win-IL2CPP only)
   build-windows-il2cpp:
     name: Build (StandaloneWindows64 IL2CPP) on Windows
     runs-on: windows-latest
@@ -135,18 +130,16 @@ jobs:
           if git lfs ls-files | awk '$2=="-"{exit 1}'; then echo "LFS OK"; else
             echo "Missing LFS files"; exit 1; fi
 
-      # UPM (packages) cache
-      - name: Cache UPM
+      - name: Cache UPM (packages) [Windows]
         uses: actions/cache@v4
         with:
           path: |
-            ~/.cache/unity3d
-            ~/.local/share/unity3d
+            C:\Users\runneradmin\AppData\Local\Unity\cache
+            C:\Users\runneradmin\AppData\Roaming\Unity\Packages
           key: upm-${{ runner.os }}-${{ hashFiles('ProjectSettings/ProjectVersion.txt','Packages/manifest.json','Packages/packages-lock.json') }}
           restore-keys: upm-${{ runner.os }}-
 
-      # Library cache (per target + version)
-      - name: Cache Unity Library
+      - name: Cache Unity Library (per target + version)
         uses: actions/cache@v4
         with:
           path: ${{ env.PROJECT_PATH }}/Library
@@ -154,6 +147,12 @@ jobs:
           restore-keys: |
             lib-${{ runner.os }}-StandaloneWindows64-
             lib-${{ runner.os }}-
+
+      - name: Guard – License present (Personal or Pro)
+        shell: bash
+        run: |
+          if [ -z "${UNITY_LICENSE}${UNITY_SERIAL}" ]; then
+            echo "Provide UNITY_LICENSE (Personal) or UNITY_SERIAL (Pro) in repo secrets."; exit 1; fi
 
       - name: Build (GameCI Unity Builder)
         uses: game-ci/unity-builder@v4
@@ -168,8 +167,7 @@ jobs:
           targetPlatform: StandaloneWindows64
           versioning: None
 
-      # Faster: no manual zip; let Actions compress
-      - name: Upload build artifact
+      - name: Upload build artifact (no zip)
         uses: actions/upload-artifact@v4
         with:
           name: Build-StandaloneWindows64
