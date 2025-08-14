@@ -50,26 +50,34 @@ jobs:
         uses: actions/checkout@v4
         with:
           lfs: true
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Ensure/Fetch LFS
         run: |
           git lfs install --local
           git lfs pull
           git lfs checkout
+          # fail if any pointers unresolved
+          if git lfs ls-files | awk '$2=="-"{exit 1}'; then echo "LFS OK"; else exit 1; fi
 
-      - name: Validate LFS pointers resolved
-        run: |
-          if git lfs ls-files | awk '$2=="-"{exit 1}'; then echo "LFS OK"; else
-            echo "Missing LFS files"; exit 1; fi
+      # -------- UPM cache (packages)
+      - name: Cache UPM
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/unity3d
+            ~/.local/share/unity3d
+          key: upm-${{ runner.os }}-${{ hashFiles('ProjectSettings/ProjectVersion.txt','Packages/manifest.json','Packages/packages-lock.json') }}
+          restore-keys: upm-${{ runner.os }}-
 
+      # -------- Library cache (per target + version)
       - name: Cache Unity Library
         uses: actions/cache@v4
         with:
           path: ${{ env.PROJECT_PATH }}/Library
-          key: lib-${{ runner.os }}-${{ env.UNITY_VERSION }}-${{ hashFiles('**/Packages/manifest.json', '**/Packages/packages-lock.json') }}
+          key: lib-${{ runner.os }}-${{ inputs.target }}-${{ hashFiles('ProjectSettings/ProjectVersion.txt','Packages/manifest.json','Packages/packages-lock.json') }}
           restore-keys: |
-            lib-${{ runner.os }}-${{ env.UNITY_VERSION }}-
+            lib-${{ runner.os }}-${{ inputs.target }}-
             lib-${{ runner.os }}-
 
       - name: Guard – License present (Personal or Pro)
@@ -86,27 +94,20 @@ jobs:
           UNITY_SERIAL: ${{ env.UNITY_SERIAL }}
         with:
           projectPath: ${{ env.PROJECT_PATH }}
-          unityVersion: ${{ env.UNITY_VERSION }}
+          unityVersion: auto
           targetPlatform: ${{ inputs.target }}
           versioning: None
-          # projectPath: .  # uncomment/change if your project is in a subfolder
-          # buildMethod: My.Editor.Build.Run  # optional: use a custom method
 
-      - name: Zip build folder
-        run: |
-          cd build
-          zip -r ../Build_${{ inputs.target }}.zip .
-          cd ..
-
+      # --- Upload without zipping (faster). Let Actions compress with zstd.
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: Build-${{ inputs.target }}
-          path: Build_${{ inputs.target }}.zip
-          if-no-files-found: error
+          path: build
           retention-days: ${{ inputs.retentionDays }}
+          compression-level: 1 # lower = faster (0..9)
 
-  # -------- Optional path: Windows runner for Windows+IL2CPP
+    # -------- Optional path: Windows runner for Windows+IL2CPP
   build-windows-il2cpp:
     name: Build (StandaloneWindows64 IL2CPP) on Windows
     runs-on: windows-latest
@@ -123,7 +124,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           lfs: true
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Ensure/Fetch LFS
         shell: bash
@@ -134,13 +135,24 @@ jobs:
           if git lfs ls-files | awk '$2=="-"{exit 1}'; then echo "LFS OK"; else
             echo "Missing LFS files"; exit 1; fi
 
+      # UPM (packages) cache
+      - name: Cache UPM
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/unity3d
+            ~/.local/share/unity3d
+          key: upm-${{ runner.os }}-${{ hashFiles('ProjectSettings/ProjectVersion.txt','Packages/manifest.json','Packages/packages-lock.json') }}
+          restore-keys: upm-${{ runner.os }}-
+
+      # Library cache (per target + version)
       - name: Cache Unity Library
         uses: actions/cache@v4
         with:
           path: ${{ env.PROJECT_PATH }}/Library
-          key: lib-${{ runner.os }}-${{ env.UNITY_VERSION }}-${{ hashFiles('**/Packages/manifest.json', '**/Packages/packages-lock.json') }}
+          key: lib-${{ runner.os }}-StandaloneWindows64-${{ hashFiles('ProjectSettings/ProjectVersion.txt','Packages/manifest.json','Packages/packages-lock.json') }}
           restore-keys: |
-            lib-${{ runner.os }}-${{ env.UNITY_VERSION }}-
+            lib-${{ runner.os }}-StandaloneWindows64-
             lib-${{ runner.os }}-
 
       - name: Build (GameCI Unity Builder)
@@ -152,21 +164,15 @@ jobs:
           UNITY_SERIAL: ${{ env.UNITY_SERIAL }}
         with:
           projectPath: ${{ env.PROJECT_PATH }}
-          unityVersion: ${{ env.UNITY_VERSION }}
+          unityVersion: auto
           targetPlatform: StandaloneWindows64
           versioning: None
 
-      - name: Zip build folder
-        shell: bash
-        run: |
-          cd build
-          zip -r ../Build_StandaloneWindows64.zip .
-          cd ..
-
+      # Faster: no manual zip; let Actions compress
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: Build-StandaloneWindows64
-          path: Build_StandaloneWindows64.zip
-          if-no-files-found: error
+          path: build
           retention-days: ${{ inputs.retentionDays }}
+          compression-level: 1
