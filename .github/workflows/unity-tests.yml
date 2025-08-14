@@ -1,12 +1,23 @@
 name: Unity Tests
 
 on:
-  pull_request:
-  push:
-    branches: [main]
+  # Manual runs from the Actions tab with inputs
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Which tests to run"
+        type: choice
+        options: [both, editmode, playmode]
+        default: both
+        required: true
+      coverage:
+        description: "Generate coverage for EditMode?"
+        type: boolean
+        default: false
+        required: true
 
 concurrency:
-  group: unity-tests-${{ github.ref }}
+  group: unity-tests-${{ github.ref || github.run_id }}
   cancel-in-progress: true
 
 permissions:
@@ -15,11 +26,11 @@ permissions:
 env:
   PROJECT_PATH: .
   UNITY_VERSION: 2022.3.21f1
-  MIN_COVERAGE: "0" # set to "40" for 40% gate later if desired
+  MIN_COVERAGE: "0" # optional, used only if you later add a coverage gate
 
 jobs:
   tests:
-    name: EditMode + PlayMode
+    name: EditMode + PlayMode (manual)
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
@@ -32,7 +43,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           lfs: true
-          fetch-depth: 1 # was 0; faster unless you truly need history
+          fetch-depth: 1 # faster unless you truly need history
 
       - name: Ensure/Fetch LFS
         run: |
@@ -79,9 +90,9 @@ jobs:
             echo "UNITY_LICENSE secret is missing"; exit 1; fi
 
       # ---------- EDITMODE ----------
-      # Coverage on main pushes (kept), faster no-coverage on PRs
-      - name: Run EditMode tests
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      # Coverage ON only if requested in manual inputs
+      - name: Run EditMode tests (with coverage)
+        if: github.event_name == 'workflow_dispatch' && inputs.coverage == true && (inputs.mode == 'both' || inputs.mode == 'editmode')
         uses: game-ci/unity-test-runner@v4
         with:
           projectPath: ${{ env.PROJECT_PATH }}
@@ -91,8 +102,9 @@ jobs:
           coverageOptions: generateAdditionalMetrics;generateHtmlReport;assemblyFilters:+*
           customParameters: -logFile - -nographics -enableUPMTrace
 
+      # Faster path (no coverage) when coverage=false
       - name: Run EditMode tests (no coverage)
-        if: github.event_name != 'push' || github.ref != 'refs/heads/main'
+        if: github.event_name == 'workflow_dispatch' && inputs.coverage == false && (inputs.mode == 'both' || inputs.mode == 'editmode')
         uses: game-ci/unity-test-runner@v4
         with:
           projectPath: ${{ env.PROJECT_PATH }}
@@ -101,9 +113,20 @@ jobs:
           artifactsPath: artifacts-edit
           customParameters: -logFile - -nographics -enableUPMTrace
 
+      - name: Upload artifacts (EditMode)
+        if: always() && github.event_name == 'workflow_dispatch' && (inputs.mode == 'both' || inputs.mode == 'editmode')
+        uses: actions/upload-artifact@v4
+        with:
+          name: editmode-artifacts
+          path: |
+            artifacts-edit/**
+            ${{ env.PROJECT_PATH }}/**/Editor.log
+          if-no-files-found: ignore
+          retention-days: 14
+
       # ---------- PLAYMODE ----------
-      # Keep PlayMode lean (no coverage here to save time)
       - name: Run PlayMode tests (headless)
+        if: github.event_name == 'workflow_dispatch' && (inputs.mode == 'both' || inputs.mode == 'playmode')
         uses: game-ci/unity-test-runner@v4
         with:
           projectPath: ${{ env.PROJECT_PATH }}
@@ -112,15 +135,12 @@ jobs:
           artifactsPath: artifacts-play
           customParameters: -logFile - -nographics
 
-      # ---------- ARTIFACTS ----------
-      # Single upload step (smaller overhead than two separate uploads)
-      - name: Upload artifacts
-        if: always()
+      - name: Upload artifacts (PlayMode)
+        if: always() && github.event_name == 'workflow_dispatch' && (inputs.mode == 'both' || inputs.mode == 'playmode')
         uses: actions/upload-artifact@v4
         with:
-          name: test-artifacts
+          name: playmode-artifacts
           path: |
-            artifacts-edit/**
             artifacts-play/**
             ${{ env.PROJECT_PATH }}/**/Editor.log
           if-no-files-found: ignore
