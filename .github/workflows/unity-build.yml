@@ -6,7 +6,7 @@ on:
       target:
         description: "Build target"
         type: choice
-        options: [StandaloneWindows64, Linux64, WebGL]
+        options: [StandaloneWindows64, StandaloneLinux64, WebGL]
         default: StandaloneWindows64
         required: true
       winIL2CPP:
