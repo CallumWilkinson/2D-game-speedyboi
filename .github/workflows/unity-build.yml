@@ -64,8 +64,8 @@ jobs:
           path: |
             ~/.cache/unity3d
             ~/.local/share/unity3d
-          key: upm-${{ runner.os }}-${{ hashFiles('ProjectSettings/ProjectVersion.txt','Packages/manifest.json','Packages/packages-lock.json') }}
-          restore-keys: upm-${{ runner.os }}-
+          key: upm-${{ runner.os }}
+          restore-keys: upm-${{ runner.os }}
 
       # ---- Restore Library cache
       - name: Restore Unity Library cache
@@ -74,10 +74,9 @@ jobs:
         with:
           path: ${{ env.PROJECT_PATH }}/Library
           # Per-OS + per-target + per-Unity+packages hash
-          key: lib-${{ runner.os }}-${{ inputs.target }}-${{ hashFiles('ProjectSettings/ProjectVersion.txt','Packages/manifest.json','Packages/packages-lock.json') }}
-          restore-keys: |
-            lib-${{ runner.os }}-${{ inputs.target }}-
-            lib-${{ runner.os }}-
+          key: lib-${{ runner.os }}-${{ inputs.target }}
+            lib-${{ runner.os }}-${{ inputs.target }}
+            lib-${{ runner.os }}
 
       - name: Guard – License present (Personal or Pro)
         run: |
@@ -103,7 +102,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: ${{ env.PROJECT_PATH }}/Library
-          key: lib-${{ runner.os }}-${{ inputs.target }}-${{ hashFiles('ProjectSettings/ProjectVersion.txt','Packages/manifest.json','Packages/packages-lock.json') }}
+          key: lib-${{ runner.os }}-${{ inputs.target }}
 
       - name: Upload build artifact (no zip)
         uses: actions/upload-artifact@v4
@@ -147,8 +146,8 @@ jobs:
           path: |
             C:\Users\runneradmin\AppData\Local\Unity\cache
             C:\Users\runneradmin\AppData\Roaming\Unity\Packages
-          key: upm-${{ runner.os }}-${{ hashFiles('ProjectSettings/ProjectVersion.txt','Packages/manifest.json','Packages/packages-lock.json') }}
-          restore-keys: upm-${{ runner.os }}-
+          key: upm-${{ runner.os }}
+          restore-keys: upm-${{ runner.os }}
 
         # ---- Restore Library cache
       - name: Restore Unity Library cache
@@ -157,10 +156,10 @@ jobs:
         with:
           path: ${{ env.PROJECT_PATH }}/Library
           # Per-OS + per-target + per-Unity+packages hash
-          key: lib-${{ runner.os }}-${{ inputs.target }}-${{ hashFiles('ProjectSettings/ProjectVersion.txt','Packages/manifest.json','Packages/packages-lock.json') }}
+          key: lib-${{ runner.os }}-${{ inputs.target }}
           restore-keys: |
-            lib-${{ runner.os }}-${{ inputs.target }}-
-            lib-${{ runner.os }}-
+            lib-${{ runner.os }}-${{ inputs.target }}
+            lib-${{ runner.os }}
 
       - name: Guard – License present (Personal or Pro)
         shell: bash
@@ -187,8 +186,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: ${{ env.PROJECT_PATH }}/Library
-          key: lib-${{ runner.os }}-${{ inputs.target }}-${{ hashFiles('ProjectSettings/ProjectVersion.txt','Packages/manifest.json','Packages/packages-lock.json') }}
-
+          key: lib-${{ runner.os }}-${{ inputs.target }}
       - name: Upload build artifact (no zip)
         uses: actions/upload-artifact@v4
         with:
