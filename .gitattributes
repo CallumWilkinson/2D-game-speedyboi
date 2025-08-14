@@ -11,6 +11,9 @@
 *.mp4  filter=lfs diff=lfs merge=lfs -text
 *.mov  filter=lfs diff=lfs merge=lfs -text
 *.hdr  filter=lfs diff=lfs merge=lfs -text
+*.png  filter=lfs diff=lfs merge=lfs -text
+*.jpg  filter=lfs diff=lfs merge=lfs -text
+
 # ----- Keep Unity YAML assets as text (do NOT LFS) -----
 *.unity  text eol=lf
 *.prefab text eol=lf

@@ -88,7 +88,7 @@ jobs:
           projectPath: ${{ env.PROJECT_PATH }}
           unityVersion: ${{ env.UNITY_VERSION }}
           targetPlatform: ${{ inputs.target }}
-          versioning: Semantic
+          versioning: None
           # projectPath: .  # uncomment/change if your project is in a subfolder
           # buildMethod: My.Editor.Build.Run  # optional: use a custom method
 
@@ -154,7 +154,7 @@ jobs:
           projectPath: ${{ env.PROJECT_PATH }}
           unityVersion: ${{ env.UNITY_VERSION }}
           targetPlatform: StandaloneWindows64
-          versioning: Semantic
+          versioning: None
 
       - name: Zip build folder
         shell: bash
